@@ -340,13 +340,34 @@ class FilesHandler {
                 csvReader.readLine();
                 int maxRecordsInBlock = calculateMaxRecordsInBlock();
                 String line;
+                int currentSize = 0;
+
                 while ((line = csvReader.readLine()) != null) {
-                    if (blockRecords.size() == maxRecordsInBlock) {
-                        writeDataFileBlock(blockRecords);
-                        blockRecords = new ArrayList<>();
+                    try {
+                        Record r = new Record(line);
+                        byte[] serialized = serialize(r);  // Αν δεν έχεις serialize(Record), μπορώ να σου τη δώσω
+
+                        if (serialized.length > BLOCK_SIZE - 100) {
+                            System.out.println("Skipping oversized record: " + r.getRecordID());
+                            continue;
+                        }
+
+                        if (currentSize + serialized.length > BLOCK_SIZE) {
+                            writeDataFileBlock(blockRecords);
+                            blockRecords.clear();
+                            currentSize = 0;
+                        }
+
+                        blockRecords.add(r);
+                        currentSize += serialized.length;
+
+                    } catch (Exception ex) {
+                        System.out.println("Skipping malformed record: " + line);
                     }
-                    blockRecords.add(new Record(line));
+
+
                 }
+
                 csvReader.close();
                 if (!blockRecords.isEmpty())
                     writeDataFileBlock(blockRecords);
@@ -523,6 +544,13 @@ class FilesHandler {
                 long blockId = entry.getKey();
                 IndexBlock block = entry.getValue();
                 byte[] blockInBytes = serialize(block);
+
+                if (blockInBytes.length + 4 > BLOCK_SIZE) {
+                    System.out.println("❌ Index block too large: " + blockInBytes.length + " bytes. Skipping block " + blockId);
+                    continue;
+                }
+
+
                 byte[] lenBytes = ByteBuffer.allocate(4).putInt(blockInBytes.length).array();
                 byte[] fileBlock = new byte[BLOCK_SIZE];
                 System.arraycopy(lenBytes, 0, fileBlock, 0, 4);
