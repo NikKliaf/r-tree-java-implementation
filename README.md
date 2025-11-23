@@ -1,4 +1,4 @@
-# database-technologies-project
+# R*Tree Spatial Index Implementation in Java
 University Project for Database Technologies. Spatial Data, R*-tree implementation. Java language
 
 We will organize OpenStreetMap (OSM) data into blocks, stored inside a datafile. The data will be indexed
