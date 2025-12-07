@@ -6,7 +6,7 @@
 
 ## Overview
 
-This project is a Java-based implementation of an **R*-tree spatial index** designed to handle **OpenStreetMap (OSM)** data. Developed as a university project for Database Technologies, it focuses on efficient spatial data management by organizing data into blocks stored within a datafile.
+This project is a Java-based implementation of an **R\*-tree spatial index** designed to handle **OpenStreetMap (OSM)** data. Developed as a university project for Database Technologies, it focuses on efficient spatial data management by organizing data into blocks stored within a datafile.
 
 The system supports advanced spatial queries and includes a Python-based visualization module to analyze query performance and structure.
 
