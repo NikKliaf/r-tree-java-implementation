@@ -12,7 +12,7 @@ The system supports advanced spatial queries and includes a Python-based visuali
 
 ## Features
 
-* **R*-Tree Indexing:** Efficient handling of spatial data using the R*-tree data structure.
+* **R\*-Tree Indexing:** Efficient handling of spatial data using the R*-tree data structure.
 * **Block Storage:** Organizes OSM data into blocks for optimized disk storage and retrieval.
 * **Spatial Queries:**
     * **Range Queries:** Find all objects within a specific rectangular area.
